@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ALC Music Library</title>
+
+<style>
+:root {
+  --primary: #0d1b2a;
+  --accent: #e63946;
+  --light: #f8f9fa;
+  --text: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: var(--light);
+  color: var(--text);
+}
+
+/* HEADER */
+header {
+  background: var(--primary);
+  color: white;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.logo {
+  font-weight: bold;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--primary);
+    flex-direction: column;
+    display: none;
+    text-align: center;
+  }
+
+  .menu.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+  url('IMAGES/ALC1.png') center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+/* SEARCH */
+.search-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  margin-bottom: 5px;
+}
+
+.card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* AUDIO */
+audio {
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  background: var(--accent);
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  margin-right: 5px;
+}
+
+.btn.secondary {
+  background: var(--primary);
+}
+
+/* ADMIN PANEL */
+#adminPanel {
+  display: none;
+  margin-bottom: 30px;
+}
+
+#adminPanel input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* FOOTER */
+footer {
+  background: var(--primary);
+
+position: fixed;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  bottom: 0;
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nav">
+    <div class="logo">ALC Music</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <nav class="menu" id="menu">
+      <a href="index.html">Home</a>
+      <a href="#">Sermons</a>
+      <a href="music.html">Song List</a>
+      <a href="#">Contact</a>
+      <a href="#" onclick="toggleAdmin()">Admin</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Music Library</h1>
+  <p>Listen and download spirit-filled worship songs</p>
+</section>
+
+<section class="container">
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" class="card">
+    <h3>Upload Song</h3>
+    <input type="text" id="title" placeholder="Song Title">
+    <input type="text" id="artist" placeholder="Artist Name">
+    <input type="file" id="file" accept="audio/*">
+    <button class="btn" onclick="uploadSong()">Upload</button>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search songs..." onkeyup="searchSongs()">
+  </div>
+
+  <!-- SONG LIST -->
+  <div class="grid" id="songList"></div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Ambiance of Life Church</p>
+</footer>
+
+<script>
+// MENU
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+
+// ADMIN PANEL
+function toggleAdmin(){
+  let panel = document.getElementById("adminPanel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+// LOAD SONGS
+window.onload = loadSongs;
+
+function loadSongs(){
+  let songs = JSON.parse(localStorage.getItem("songs")) || [];
+  let container = document.getElementById("songList");
+  container.innerHTML = "";
+
+  songs.forEach((song, index) => {
+    container.innerHTML += `
+      <div class="card song">
+        <h3>${song.title}</h3>
+        <p>${song.artist}</p>
+
+        <audio controls src="${song.file}"></audio>
+
+        <a href="${song.file}" download="${song.title}.mp3" class="btn">
+          Download
+        </a>
+
+        <button class="btn secondary" onclick="deleteSong(${index})">
+          Delete
+        </button>
+      </div>
+    `;
+  });
+}
+
+// UPLOAD
+function uploadSong(){
+  let title = document.getElementById("title").value;
+  let artist = document.getElementById("artist").value;
+  let file = document.getElementById("file").files[0];
+
+  if(!title || !artist || !file){
+    alert("Fill all fields");
+    return;
+  }
+
+  let reader = new FileReader();
+
+  reader.onload = function(e){
+    let songs = JSON.parse(localStorage.getItem("songs")) || [];
+
+    songs.push({
+      title,
+      artist,
+      file: e.target.result
+    });
+
+    localStorage.setItem("songs", JSON.stringify(songs));
+
+    loadSongs();
+
+    alert("Uploaded!");
+
+    document.getElementById("title").value = "";
+    document.getElementById("artist").value = "";
+    document.getElementById("file").value = "";
+  };
+
+  reader.readAsDataURL(file);
+}
+
+// DELETE
+function deleteSong(index){
+  let songs = JSON.parse(localStorage.getItem("songs")) || [];
+  songs.splice(index, 1);
+  localStorage.setItem("songs", JSON.stringify(songs));
+  loadSongs();
+}
+
+// SEARCH
+function searchSongs(){
+  let input = document.getElementById("search").value.toLowerCase();
+  let songs = document.querySelectorAll(".song");
+
+  songs.forEach(song => {
+    let text = song.innerText.toLowerCase();
+    song.style.display = text.includes(input) ? "block" : "none";
+  });
+}
+</script>
+
+</body>
+</html>

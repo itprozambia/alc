@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ALC Music Library</title>
+
+<style>
+:root {
+  --primary: #0d1b2a;
+  --accent: #e63946;
+  --light: #f8f9fa;
+  --text: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--light);
+}
+
+/* HEADER */
+header {
+  background: var(--primary);
+  color: white;
+  padding: 15px 20px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+  url('IMAGES/ALC1.png') center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+/* MAIN LAYOUT */
+.music-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* MAIN PLAYER */
+.player {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.player h2 {
+  margin-bottom: 10px;
+}
+
+.player p {
+  margin-bottom: 15px;
+  color: gray;
+}
+
+.player audio {
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.song-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.song-item:hover {
+  background: #f1f1f1;
+}
+
+.song-item.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* SEARCH */
+.search-box {
+  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .music-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background: var(--primary);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div><strong>ALC Music</strong></div>
+    <div class="menu">
+      <a href="#">Home</a>
+      <a href="#">Music</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Music Library</h1>
+  <p>Experience worship deeply</p>
+</section>
+
+<!-- SEARCH -->
+<div class="search-box">
+  <input type="text" id="search" placeholder="Search songs..." onkeyup="searchSongs()">
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="music-layout">
+
+  <!-- MAIN PLAYER -->
+  <div class="player">
+    <h2 id="title">Delana Hope</h2>
+    <p id="artist">I CALL IT FORETH</p>
+
+    <audio id="mainAudio" controls>
+      <source id="audioSource" src="music/i call it foreth.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="songList">
+
+    <div class="song-item active" onclick="playSong(this, 'Delana Hope', 'I CALL IT FORETH', 'music/i call it foreth.mp3')">
+      Delana Hope - I CALL IT FORETH
+    </div>
+
+    <div class="song-item" onclick="playSong(this, 'Ephraim', 'Mushi wende', 'music/Ephraim Mupashi Wende.mp3')">
+      Ephraim - Mushi wende
+    </div>
+
+    <div class="song-item" onclick="playSong(this, 'Roberta', 'Kamilumbe', 'music/Roberta-Kamilumbe.mp3')">
+      Roberta - Kamilumbe
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Ambiance of Life Church
+</footer>
+
+<script>
+
+// PLAY SONG
+function playSong(element, title, artist, src){
+  document.getElementById("title").innerText = title;
+  document.getElementById("artist").innerText = artist;
+
+  let audio = document.getElementById("mainAudio");
+  let source = document.getElementById("audioSource");
+
+  source.src = src;
+  audio.load();
+  audio.play();
+
+  // highlight active
+  document.querySelectorAll(".song-item").forEach(item => {
+    item.classList.remove("active");
+  });
+  element.classList.add("active");
+}
+
+// SEARCH
+function searchSongs(){
+  let input = document.getElementById("search").value.toLowerCase();
+  let songs = document.querySelectorAll(".song-item");
+
+  songs.forEach(song => {
+    let text = song.innerText.toLowerCase();
+    song.style.display = text.includes(input) ? "block" : "none";
+  });
+}
+
+</script>
+
+</body>
+</html>
