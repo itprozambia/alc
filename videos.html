@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALC Video Library</title>
+
+<style>
+:root {
+  --primary: #0d1b2a;
+  --accent: #e63946;
+  --light: #f8f9fa;
+  --text: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+header {
+  background: var(--primary);
+  color: white;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--light);
+}
+
+.hero h1 {
+  font-size: 2rem;
+}
+
+/* SEARCH */
+.search-box {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+
+/* LAYOUT */
+.video-layout {
+  display: flex;
+  gap: 20px;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* MAIN VIDEO */
+.player {
+  flex: 2;
+}
+
+.player video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.player h2 {
+  margin-top: 10px;
+}
+
+.player p {
+  color: gray;
+}
+
+/* SIDEBAR */
+.sidebar {
+  flex: 1;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* VIDEO ITEM */
+.video-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.video-item:hover {
+  background: #eee;
+}
+
+.video-item.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* THUMBNAIL */
+.thumb {
+  width: 100px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .video-layout {
+    flex-direction: column;
+  }
+
+  .menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--primary);
+    flex-direction: column;
+    display: none;
+    text-align: center;
+  }
+
+  .menu.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">ALC Videos</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <nav class="menu" id="menu">
+      <a href="#">Home</a>
+      <a href="#">Sermons</a>
+      <a href="#">Music</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Video Library</h1>
+  <p>Watch powerful spirit-filled messages & worship</p>
+</section>
+
+<div class="search-box">
+  <input type="text" id="search" placeholder="Search videos..." onkeyup="searchVideos()">
+</div>
+
+<div class="video-layout">
+
+  <!-- MAIN PLAYER -->
+  <div class="player">
+    <video id="mainVideo" controls>
+      <source id="videoSource" src="videos/This_Victoria_Orenze.mp4" type="video/mp4">
+    </video>
+
+    <h2 id="title">Sunday Service</h2>
+    <p id="desc">Experience God's presence</p>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="videoList">
+
+    <div class="video-item active"
+      onclick="playVideo(this,'Victoria Orenze','This Year','videos/This_Victoria_Orenze.mp4')">
+      <div>Victoria Orenze</div>
+    </div>
+
+    <div class="video-item"
+      onclick="playVideo(this,'ADC Music','Yesu Nimfumu Cover','videos/ADC_YESU_NIFUMU.mp4')">
+      <div>Yesu Nimfumu Cover</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// PLAY VIDEO
+function playVideo(element,title,desc,src){
+  document.getElementById("title").innerText = title;
+  document.getElementById("desc").innerText = desc;
+
+  let video = document.getElementById("mainVideo");
+  let source = document.getElementById("videoSource");
+
+  source.src = src;
+  video.load();
+  video.play();
+
+  document.querySelectorAll(".video-item").forEach(item=>{
+    item.classList.remove("active");
+  });
+
+  element.classList.add("active");
+}
+
+// SEARCH
+function searchVideos(){
+  let input = document.getElementById("search").value.toLowerCase();
+  let videos = document.querySelectorAll(".video-item");
+
+  videos.forEach(video=>{
+    let text = video.innerText.toLowerCase();
+    video.style.display = text.includes(input) ? "flex" : "none";
+  });
+}
+
+// MENU
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
