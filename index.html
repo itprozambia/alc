@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -47,6 +47,11 @@
     .logo {
       font-size: 1.3rem;
       font-weight: bold;
+      display: none;
+    }
+      #logo {
+      font-size: 1.3rem;
+      font-weight: bold;
     }
 
     .menu {
@@ -89,6 +94,13 @@
       }
 
       .menu-toggle {
+        display: block;
+
+      }
+      #logo{
+        display: none;
+      }
+      .logo{
         display: block;
       }
     }
@@ -171,6 +183,7 @@
   <header>
     <div class="nav">
       <div class="logo">Ambiance of Life Church</div>
+       <div id="logo">ALC</div>
       <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
       <nav class="menu" id="menu">
