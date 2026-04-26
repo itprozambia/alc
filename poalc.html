@@ -135,23 +135,40 @@
       text-decoration: none;
       
     }
+
+    
+    @media(max-width: 768px) {
+      .menu {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: var(--primary);
+        flex-direction: column;
+        align-items: center;
+        display: none;
+      }
+      .container {
+        width: 90%;
+      }
+      .hero{
+        display: none;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-<header>Ambiance of Life Church</header>
-
-<section class="hero" style="font-family: Arial;">
-  <p>SUPPORT THE MINISTRY AND IMPACT LIVES.</p>
-  <nav>
+<header>Ambiance of Life Church  <nav>
     <a href="index.html">Home</a>
    <a href="music.html">Media</a>
    </nav>
   
   
   </nav>
-</section>
+</header>
 
 <section class="container">
 
@@ -230,20 +247,20 @@ function showPayment(){
   box.style.display = "block";
 
   if(method === "mtn"){
-    box.innerHTML = `
+   /* box.innerHTML = `
       <div class="payment-box">
         <b>MTN Mobile Money</b><br>
-        Send to: <b>+260 XXX XXX XXX</b><br>
-        Use your name as reference.
-      </div>`;
+        Send to: <b>+260 973811820</b><br>
+       Name: Mahongo Kaswilo.
+      </div>`;*/
   }
 
   else if(method === "airtel"){
     box.innerHTML = `
       <div class="payment-box">
         <b>Airtel Money</b><br>
-        Send to: <b>+260 XXX XXX XXX</b><br>
-        Use your name as reference.
+     Send to: <b>+260 973811820</b><br>
+       Name: Mahongo Kaswilo
       </div>`;
   }
 
@@ -269,7 +286,7 @@ form.addEventListener("submit", function(e){
 
   // WhatsApp message
   const msg = `New Offering:%0AName: ${name}%0APhone: ${phone}%0AEmail: ${email}%0AType: ${type}%0AAmount: ZMW ${amount}`;
-  window.open(`https://wa.me/260XXXXXXXXX?text=${msg}`);
+  window.open(`https://wa.me/260976564595?text=${msg}`);
 
   // Download receipt
   const receipt = `
