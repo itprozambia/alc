@@ -149,71 +149,73 @@ footer {
 </header>
 
 <section class="container">
-<div class="card">
-<h2>Submit Your Giving</h2>
 
-<form id="form">
+  <div class="card">
+    <h2>Submit Your Offering</h2>
 
-<div class="form-group">
-<label>Full Name</label>
-<input type="text" id="name" required>
-</div>
+    <form id="form">
 
-<div class="form-group">
-<label>Phone</label>
-<input type="tel" id="phone" required>
-</div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="name" required>
+      </div>
 
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="email" required>
-</div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" id="phone" required>
+      </div>
 
-<div class="form-group">
-<label>Giving Gategory</label>
-<select id="type">
-  <option>Offering</option>
-<option>Tithe</option>
-<option>Seed</option>
-<option>Partnership</option>
-<option>Special Offering</option>
-  <option>Instruments</option>
-  <option>Church Rentals</option>
-  <option>Buiding Project</option>
-  <option>Mission Work</option>
-</select>
-</div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="form-group">
+        <label>Giving Category</label>
+        <select id="type">
+          <option>Tithe</option>
+           <option>Offering</option>
+          <option>Seed</option>
+           <option>Church Rentals</option>
+           <option>Instruments</option>
+           <option>Buiding Project</option>
+          <option>Partnership</option>
+           <option>Mission Work</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Amount (ZMW)</label>
+        <input type="number" id="amount" required>
+      </div>
+
       <div class="form-group">
         <label>Payment Method</label>
         <select id="payment" onchange="showPayment()">
           <option value="">Select Method</option>
           <option value="mtn">MTN Mobile Money</option>
           <option value="airtel">Airtel Money</option>
-          /*<option value="card">Bank Card</option>*/
+          <option value="card">Bank Card</option>
         </select>
       </div>
 
       <div class="payment-options" id="paymentOptions"></div>
-<div class="form-group">
-<label>Amount (ZMW)</label>
-<input type="number" id="amount" min="5" required>
-</div>
 
-<div class="form-group">
-<label>Message</label>
-<textarea id="message"></textarea>
-</div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="message"></textarea>
+      </div>
 
-<button class="btn" type="submit">Complete Submission</button>
+      <button class="btn" type="submit">Complete Submission</button>
 
-<div class="success" id="successMsg">
-Submission successful! Receipt downloaded.
-</div>
+      <div class="success" id="successMsg">
+        Submission successful! You will receive confirmation shortly.
+      </div>
 
-</form>
-</div>
+    </form>
+  </div>
+
 </section>
-
 <footer>© 2026 Ambiance of Life Church</footer>
 
 <script>
