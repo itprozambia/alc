@@ -288,6 +288,40 @@ form.addEventListener("submit", function(e){
   document.getElementById("successMsg").style.display = "block";
   form.reset();
 });
+
+  function showPayment(){
+  const method = document.getElementById("payment").value;
+  const box = document.getElementById("paymentOptions");
+
+  box.style.display = "block";
+
+  if(method === "mtn"){
+    box.innerHTML = `
+      <div class="payment-box">
+        <b>MTN Mobile Money</b><br>
+        Send to: <b>+260 XXX XXX XXX</b><br>
+       Name: Mahongo Kaswilo.
+      </div>`;
+  }
+
+  else if(method === "airtel"){
+    box.innerHTML = `
+      <div class="payment-box">
+        <b>Airtel Money</b><br>
+        Send to: <b>+260 XXX XXX XXX</b><br>
+        Name: Mahongo Kaswilo.
+      </div>`;
+  }
+
+  else if(method === "card"){
+    box.innerHTML = `
+      <div class="payment-box">
+        <b>Bank Card</b><br>
+        (Integration ready – connect Paystack/Flutterwave)
+      </div>`;
+  }
+}
+
 </script>
 
 </body>
