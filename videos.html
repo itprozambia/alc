@@ -24,7 +24,7 @@
 header {
   background: var(--primary);
   color: white;
-  padding: 15px 20px;
+  padding: 12px 20px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -34,61 +34,55 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1100px;
-  margin: auto;
 }
 
-.menu {
-  display: flex;
-  gap: 20px;
+.logo {
+  font-weight: bold;
 }
 
-.menu a {
-  color: white;
-  text-decoration: none;
+.search-bar {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
 }
 
-.menu-toggle {
-  display: none;
-  cursor: pointer;
-}
-
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 40px 20px;
-  background: var(--light);
-}
-
-.hero h1 {
-  font-size: 2rem;
-}
-
-/* SEARCH */
-.search-box {
-  max-width: 600px;
-  margin: 20px auto;
-}
-
-.search-box input {
+.search-bar input {
   width: 100%;
-  padding: 12px;
-  border-radius: 25px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
 }
 
 /* LAYOUT */
-.video-layout {
+.container {
   display: flex;
-  gap: 20px;
-  max-width: 1100px;
-  margin: auto;
+}
+
+/* SIDEBAR MENU */
+.sidebar-menu {
+  width: 200px;
+  background: #fff;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar-menu a {
+  display: block;
+  margin-bottom: 15px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+/* MAIN CONTENT */
+.main {
+  flex: 1;
   padding: 20px;
 }
 
-/* MAIN VIDEO */
+/* VIDEO PLAYER */
 .player {
-  flex: 2;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .player video {
@@ -96,72 +90,57 @@ header {
   border-radius: 10px;
 }
 
-.player h2 {
-  margin-top: 10px;
+/* GRID */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
 }
 
-.player p {
-  color: gray;
-}
-
-/* SIDEBAR */
-.sidebar {
-  flex: 1;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-/* VIDEO ITEM */
-.video-item {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+/* VIDEO CARD */
+.video-card {
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
   transition: 0.3s;
 }
 
-.video-item:hover {
-  background: #eee;
+.video-card:hover {
+  transform: scale(1.03);
 }
 
-.video-item.active {
-  background: var(--accent);
-  color: white;
+.video-card video {
+  width: 100%;
+  border-radius: 8px;
 }
 
-/* THUMBNAIL */
-.thumb {
-  width: 100px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
+.video-info {
+  padding: 5px;
+}
+
+.video-info h4 {
+  font-size: 14px;
+}
+
+.video-info p {
+  font-size: 12px;
+  color: gray;
 }
 
 /* MOBILE */
 @media(max-width:768px){
-  .video-layout {
+  .container {
     flex-direction: column;
   }
 
-  .menu {
-    position: absolute;
-    top: 60px;
-    left: 0;
+  .sidebar-menu {
     width: 100%;
-    background: var(--primary);
-    flex-direction: column;
-    display: none;
-    text-align: center;
-  }
-
-  .menu.active {
     display: flex;
+    justify-content: space-around;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
   }
 
-  .menu-toggle {
-    display: block;
+  .search-bar {
+    display: none;
   }
 }
 </style>
@@ -172,68 +151,81 @@ header {
 <header>
   <div class="nav">
     <div class="logo">ALC Videos</div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-    <nav class="menu" id="menu">
-      <a href="index.html">Home</a>
-      <a href="#">Sermons</a>
-      <a href="music.html">Music</a>
-      <a href="#">Contact</a>
-    </nav>
+    <div class="search-bar">
+      <input type="text" id="search" placeholder="Search..." onkeyup="searchVideos()">
+    </div>
   </div>
 </header>
 
-<section class="hero">
-  <h1>Video Library</h1>
-  <p>Watch powerful spirit-filled messages & worship</p>
-</section>
-
-<div class="search-box">
-  <input type="text" id="search" placeholder="Search videos..." onkeyup="searchVideos()">
-</div>
-
-<div class="video-layout">
-
-  <!-- MAIN PLAYER -->
-  <div class="player">
-    <video id="mainVideo" controls>
-      <source id="videoSource" src="Videos/This_Victoria_Orenze.mp4" type="video/mp4">
-    </video>
-
-    <h2 id="title">Sunday Service</h2>
-    <p id="desc">Experience God's presence</p>
-  </div>
+<div class="container">
 
   <!-- SIDEBAR -->
-  <div class="sidebar" id="videoList">
+  <div class="sidebar-menu">
+    <a href="#">Home</a>
+    <a href="#">Sermons</a>
+    <a href="#">Music</a>
+    <a href="#">Contact</a>
+  </div>
 
-    <div class="video-item active"
-      onclick="playVideo(this,'Victoria Orenze','This Year','Videos/This_Victoria_Orenze.mp4')">
-      <div>Victoria Orenze</div>
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- PLAYER -->
+    <div class="player">
+      <video id="mainVideo" controls>
+        <source id="videoSource" src="Videos/This_Victoria_Orenze.mp4" type="video/mp4">
+      </video>
+      <h2 id="title">Sunday Service</h2>
+      <p id="desc">Experience God's presence</p>
     </div>
 
-      <div class="video-item"
-      onclick="playVideo(this,'House Of David','Goliath Dies','Videos/GOLIATH.mp4')">
-      <div>The Story of David</div>
-    </div>
+    <!-- GRID -->
+    <div class="video-grid" id="videoGrid">
 
-      <div class="video-item"
-      onclick="playVideo(this,'Travis Greene','Love will always win','Videos/LOVE WILL ALWAYS WIN.mp4')">
-      <div>Travis Greene - Love wins</div>
-    </div>
+      <div class="video-card"
+        onclick="playVideo('Victoria Orenze','This Year','Videos/This_Victoria_Orenze.mp4')">
+        <video src="Videos/This_Victoria_Orenze.mp4"></video>
+        <div class="video-info">
+          <h4>Victoria Orenze</h4>
+          <p>This Year</p>
+        </div>
+      </div>
 
-    <div class="video-item"
-      onclick="playVideo(this,'ADC Music','Yesu Nimfumu Cover','Videos/ADC_YESU_NIFUMU.mp4')">
-      <div>Yesu Nimfumu Cover</div>
+      <div class="video-card"
+        onclick="playVideo('House Of David','Goliath Dies','Videos/GOLIATH.mp4')">
+        <video src="Videos/GOLIATH.mp4"></video>
+        <div class="video-info">
+          <h4>House Of David</h4>
+          <p>Goliath Dies</p>
+        </div>
+      </div>
+
+      <div class="video-card"
+        onclick="playVideo('Travis Greene','Love Will Always Win','Videos/LOVE WILL ALWAYS WIN.mp4')">
+        <video src="Videos/LOVE WILL ALWAYS WIN.mp4"></video>
+        <div class="video-info">
+          <h4>Travis Greene</h4>
+          <p>Love Wins</p>
+        </div>
+      </div>
+
+      <div class="video-card"
+        onclick="playVideo('ADC Music','Yesu Nimfumu','Videos/ADC_YESU_NIFUMU.mp4')">
+        <video src="Videos/ADC_YESU_NIFUMU.mp4"></video>
+        <div class="video-info">
+          <h4>ADC Music</h4>
+          <p>Yesu Nimfumu</p>
+        </div>
+      </div>
+
     </div>
 
   </div>
-
 </div>
 
 <script>
 // PLAY VIDEO
-function playVideo(element,title,desc,src){
+function playVideo(title, desc, src){
   document.getElementById("title").innerText = title;
   document.getElementById("desc").innerText = desc;
 
@@ -243,28 +235,17 @@ function playVideo(element,title,desc,src){
   source.src = src;
   video.load();
   video.play();
-
-  document.querySelectorAll(".video-item").forEach(item=>{
-    item.classList.remove("active");
-  });
-
-  element.classList.add("active");
 }
 
 // SEARCH
 function searchVideos(){
   let input = document.getElementById("search").value.toLowerCase();
-  let videos = document.querySelectorAll(".video-item");
+  let cards = document.querySelectorAll(".video-card");
 
-  videos.forEach(video=>{
-    let text = video.innerText.toLowerCase();
-    video.style.display = text.includes(input) ? "flex" : "none";
+  cards.forEach(card=>{
+    let text = card.innerText.toLowerCase();
+    card.style.display = text.includes(input) ? "block" : "none";
   });
-}
-
-// MENU
-function toggleMenu(){
-  document.getElementById("menu").classList.toggle("active");
 }
 </script>
 
